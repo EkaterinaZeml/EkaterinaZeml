@@ -1,0 +1,19 @@
+Рассмотрим таблицу балансов клиентов:
+
+ClientBalance(client_id, client_name, client_balance_date, client_balance_value)
+
+client_id — идентификатор клиента;
+client_name — ФИО клиента;
+client_balance_date — дата баланса клиента;
+client_balance_value — значение баланса клиента.
+в данной таблице в какой-то момент времени появились полные дубли. 
+Предложите способ для избавления от них без создания новой таблицы.
+delete from ClientBalance
+where ct_id in  (
+                  select
+                  from ( select ct_id, 
+                                row_number() over(partition by client_id, client_name, client_balance_date, client_balance_value order by 1) as rn
+                          from ClientBalance
+                        )
+                    where rn > 1
+                )
