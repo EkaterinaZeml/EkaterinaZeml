@@ -1,0 +1,4 @@
+Следующая инструкция SQL использует предложение IN для копирования таблицы в новую таблицу в другой базе данных:
+
+SELECT * INTO CustomersBackup2017 IN 'Backup.mdb'
+FROM Customers;
